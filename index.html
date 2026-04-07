@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>Taisoni Ambokile Mwaluswaswa | GIS & Remote Sensing Portfolio</title>
   <style>
     * {
@@ -23,49 +23,43 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      background: white;  /* BACKGROUND Nyeupe safi - imeondolewa kuwa transparent */
+      background: white;
       z-index: 1000;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;  /* Anza kutoka juu */
+      justify-content: flex-start;
       overflow-y: auto;
-      padding: 0;
     }
 
-    /* PICHA IANZIE MAGOTINI (JUU KIDOGO) */
+    /* CONTAINER LA PICHA - INAWEZA KUKATA PICHA KUTOKA JUU */
     .image-top {
       width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      margin-top: 0;
-      padding-top: 0;
+      display: block;
       overflow: hidden;
+      background: white;
+      /* Hii ndio fungu muhimu - inafanya picha ikatwe kutoka juu */
+      max-height: 60vh;
+      min-height: 40vh;
     }
 
     .image-top img {
       width: 100%;
-      max-width: 100%;
       height: auto;
-      max-height: 60vh;
-      object-fit: cover;  /* Hii itakata picha kuanzia juu - kama magoti */
-      object-position: top center;  /* Anza kutoka sehemu ya juu ya picha */
       display: block;
+      /* KATA PICHA KUTOKA JUU - kama magoti */
+      margin-top: -80px;  /* Badilisha namba hii kurekebisha sehemu inayoanza */
+      margin-bottom: -50px;
     }
 
-    /* WELCOME CONTENT - BACKGROUND IMETOLEWA */
+    /* WELCOME CONTENT - BACKGROUND SAFI */
     .welcome-content-bottom {
       text-align: center;
       width: 100%;
       max-width: 700px;
-      padding: 1.5rem;
-      background: transparent;  /* BACKGROUND IMETOLEWA KABISA */
-      border-radius: 0;
-      box-shadow: none;
-      border: none;
-      margin-top: -10px;  /* Kuongezea nafasi kidogo baada ya picha */
-      margin-bottom: 1rem;
+      padding: 1rem 1.5rem 2rem 1.5rem;
+      background: transparent;
+      margin-top: -20px;
     }
 
     .welcome-content-bottom h1 {
@@ -120,7 +114,6 @@
       align-items: center;
       gap: 8px;
       margin-top: 0.8rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
     .portfolio-page {
@@ -307,25 +300,51 @@
       margin-top: 1rem;
       font-size: 0.8rem;
     }
+
+    /* KWA SIMU - MAFANIKIO ZAIDI */
     @media (max-width: 768px) {
       .welcome-content-bottom h1 { font-size: 1.5rem; }
       .welcome-content-bottom .tagline { font-size: 1rem; }
       .enter-btn { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
-      .image-top img { max-height: 55vh; object-fit: cover; object-position: top center; }
-      .welcome-content-bottom { padding: 1rem; }
+      
+      /* REKEBISHA SEHEMU PICHA INAPOANZA - BADILISHA THAMANI HII */
+      .image-top img {
+        margin-top: -60px;
+        margin-bottom: -40px;
+      }
+      
+      .image-top {
+        max-height: 55vh;
+        min-height: 35vh;
+      }
+      
+      .welcome-content-bottom {
+        padding: 0.8rem 1.2rem 1.5rem 1.2rem;
+      }
+    }
+
+    /* KWA SIMU NDOGO SANA (iPhone SE, Android ndogo) */
+    @media (max-width: 480px) {
+      .image-top img {
+        margin-top: -50px;
+        margin-bottom: -30px;
+      }
+      .image-top {
+        max-height: 50vh;
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- WELCOME PAGE - PICHA IANZIE MAGOTINI, BACKGROUND IMETOLEWA -->
+<!-- WELCOME PAGE -->
 <div id="welcomePage" class="welcome-page">
-  <!-- PICHA INAANZIA JUU (KUTOKA MAGOTINI) -->
+  <!-- CONTAINER LA PICHA - KATA KUTOKA JUU -->
   <div class="image-top">
     <img id="profileImage" src="taisoni.png" alt="Taisoni Ambokile Mwaluswaswa">
   </div>
   
-  <!-- WELCOME CONTENT - BACKGROUND SAFI -->
+  <!-- WELCOME CONTENT CHINI -->
   <div class="welcome-content-bottom">
     <h1>🌍 Welcome to my portfolio</h1>
     <div class="tagline">I'm Taisoni Ambokile Mwaluswaswa</div>
@@ -390,13 +409,13 @@
 </div>
 
 <script>
-  const img = document.getElementById('profileImage');
-
   function speakWelcomeMessage() {
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     const msg = "Welcome to my portfolio. I am Taisoni Ambokile Mwaluswaswa, a GIS and Remote Sensing expert. Click the Enter Portfolio button to explore my work.";
     const utterance = new SpeechSynthesisUtterance(msg);
-    utterance.lang = 'en-US'; utterance.rate = 0.9; utterance.pitch = 1.1;
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+    utterance.pitch = 1.1;
     setTimeout(() => window.speechSynthesis.speak(utterance), 100);
   }
 
