@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Taisoni Ambokile Mwaluswaswa | GIS & Remote Sensing Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .welcome-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: white;
+      z-index: 1000;
+      transition: all 0.8s ease;
+      overflow: hidden;
+    }
+
+    .image-zoom-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .image-zoom-container img {
+      max-width: 90%;
+      max-height: 90%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+      transform-origin: center center;
+      border-radius: 10px;
+    }
+
+    .welcome-content {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      width: 90%;
+      max-width: 700px;
+      padding: 1.5rem;
+      z-index: 15;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      border-radius: 2rem;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .welcome-content h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff, #e0e0e0);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+      animation: bounce 2.5s ease-in-out infinite;
+    }
+
+    .welcome-content .tagline {
+      font-size: 1.3rem;
+      color: #ffffff;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .welcome-content p {
+      font-size: 0.95rem;
+      color: #f0f0f0;
+      margin-bottom: 1rem;
+    }
+
+    .enter-btn {
+      background: linear-gradient(135deg, #2c7a5e, #1f4e3c);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      animation: pulse 2s ease-in-out infinite;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    
+    .voice-trigger-btn {
+      background: linear-gradient(135deg, #3b82f6, #1e4a8a);
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 60px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 0.8rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .zoom-controls {
+      display: none;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.02); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .portfolio-page {
+      display: none;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e6f0f5 100%);
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.95);
+      border-radius: 2rem;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    .hero h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1f4e3c, #2c7a5e);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .buttons-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0 3rem;
+    }
+    .portfolio-btn {
+      background: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 60px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #dee7ef;
+      animation: float 3s ease-in-out infinite;
+    }
+    .btn-photo { background: #fff5ea; border-bottom: 4px solid #e67e22; color: #b45f1b; }
+    .btn-gis { background: #eaf7f0; border-bottom: 4px solid #2c7a5e; color: #1e5a46; }
+    .btn-rs { background: #eef2fd; border-bottom: 4px solid #3b82f6; color: #1e4a8a; }
+
+    .category-section {
+      background: rgba(255,255,255,0.98);
+      border-radius: 1.5rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+    }
+    .category-section.visible { display: block; }
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 3px solid #e2e8f0;
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .category-header h2 { font-size: 1.6rem; font-weight: 700; }
+    .category-icon { font-size: 2rem; animation: pulse 2s ease-in-out infinite; }
+    .grid-2col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .skill-card, .tools-card {
+      background: #fafdff;
+      padding: 1rem;
+      border-radius: 1.2rem;
+      border-left: 4px solid;
+    }
+    .skill-list, .tools-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      list-style: none;
+    }
+    .skill-list li, .tools-list span {
+      background: #eff3f8;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+    }
+    .project-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .project-item {
+      background: white;
+      border-radius: 1rem;
+      flex: 1 1 220px;
+      border: 1px solid #e2edf2;
+      overflow: hidden;
+    }
+    .project-img-placeholder {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: linear-gradient(145deg, #eef2fa, #e0e9f2);
+    }
+    .project-info { padding: 0.8rem; }
+    .project-info h4 { font-size: 1rem; margin-bottom: 0.3rem; }
+    .project-info p { font-size: 0.8rem; color: #3a546d; }
+    .next-button-container {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      text-align: center;
+      border-top: 2px dashed #cbdde6;
+    }
+    .next-btn {
+      background: linear-gradient(135deg, #2c7a5e, #1f4e3c);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 60px;
+      cursor: pointer;
+      display: inline-flex;
+      gap: 8px;
+    }
+    .contact-portfolio-container {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    .contact-portfolio-btn {
+      background: linear-gradient(135deg, #3b82f6, #1e4a8a);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      border-radius: 60px;
+      cursor: pointer;
+      display: inline-flex;
+      gap: 6px;
+    }
+    .contact-info-portfolio {
+      background: white;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: none;
+      text-align: center;
+      max-width: 350px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .contact-info-portfolio.visible { display: block; }
+    .bottom-home {
+      text-align: center;
+      margin: 2rem 0 1rem;
+      display: none;
+    }
+    .home-btn {
+      background: linear-gradient(135deg, #1f4e3c, #2c7a5e);
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 40px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: #2c5a4a;
+      border-top: 1px solid #cbdde6;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+    }
+    @media (max-width: 768px) {
+      .welcome-content h1 { font-size: 1.8rem; }
+      .welcome-content .tagline { font-size: 1.1rem; }
+      .enter-btn { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+      .image-zoom-container img { max-width: 95%; max-height: 85%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- WELCOME PAGE -->
+<div id="welcomePage" class="welcome-page">
+  <div class="image-zoom-container">
+    <!-- NJIA KAMILI YA PICHA YAKO - C:\Users\HP\Desktop\yo\taisoni.png -->
+    <img id="profileImage" src="file:///C:/Users/HP/Desktop/yo/taisoni.png" alt="Taisoni Ambokile Mwaluswaswa" onerror="this.src='https://via.placeholder.com/500?text=Taisoni+Photo'">
+  </div>
+  
+  <div class="welcome-content">
+    <h1>🌍 Welcome to my portfolio</h1>
+    <div class="tagline"> I'm Taisoni Ambokile Mwaluswaswa</div>
+    <p><strong>Geographical Information System and Remote Sensing expert passionate about transforming spatial data into meaningful insights and real-world solutions.
+Here, you’ll discover my work, projects, and innovations in mapping, spatial analysis, and geospatial technology.
+
+Turning data into decisions, and ideas into impactful solutions..</strong></p>
+    <button class="enter-btn" onclick="goToPortfolio()">🚀 Enter Portfolio ➡️</button>
+    <br>
+    <button class="voice-trigger-btn" onclick="speakWelcomeMessage()">🔊 Sauti / Welcome Voice</button>
+    <p style="font-size:0.7rem; margin-top:1rem; color:#ddd;">Bonyeza "Sauti" kusikiliza ujumbe wa kukaribisha</p>
+  </div>
+</div>
+
+<!-- PORTFOLIO PAGE -->
+<div id="portfolioPage" class="portfolio-page">
+  <div class="container">
+    <div class="hero">
+      <h2>🗺️ Taisoni Ambokile Mwaluswaswa Portfolio</h2>
+      <p>Bonyeza button yoyote hapa chini kuona maelezo ya kitaalamu:</p>
+    </div>
+    <div class="buttons-row">
+      <button class="portfolio-btn btn-photo" onclick="showSection('photogrammetry-section')"><span>📸</span> Photogrammetry</button>
+      <button class="portfolio-btn btn-gis" onclick="showSection('gis-section')"><span>🗺️</span> GIS</button>
+      <button class="portfolio-btn btn-rs" onclick="showSection('rs-section')"><span>🛰️</span> Remote Sensing</button>
+    </div>
+    <div class="contact-portfolio-container">
+      <button class="contact-portfolio-btn" onclick="togglePortfolioContact()">📞 Contact / Email</button>
+      <div id="portfolioContactInfo" class="contact-info-portfolio">
+        <p>📧 <strong>Email:</strong> <a href="mailto:taisonimwuluswaswa@gmail.com">taisonimwuluswaswa@gmail.com</a></p>
+        <p>📱 <strong>Phone:</strong> +255 749 458 547</p>
+        <p>🌐 <strong>LinkedIn:</strong> <a href="#">linkedin.com/in/taisoni</a></p>
+      </div>
+    </div>
+    <div id="photogrammetry-section" class="category-section">
+      <div class="category-header"><div class="category-icon">📷✨</div><h2>Photogrammetry</h2></div>
+      <div class="grid-2col">
+        <div class="skill-card" style="border-left-color:#e67e22;"><h3>🔧 What I can perform</h3><ul class="skill-list"><li>Flight planning</li><li>Drone image processing</li><li>2D & 3D mapping</li><li>Orthophoto generation</li><li>Digital Surface Model</li><li>Point cloud processing</li></ul></div>
+        <div class="tools-card" style="border-left-color:#f39c12;"><h3>🛠️ Tools I use</h3><div class="tools-list"><span>Agisoft Metashape</span><span>Pix4D</span><span>WebODM</span><span>DroneDeploy</span><span>QGIS</span></div></div>
+      </div>
+      <div class="projects-gallery"><h3>📌 Project examples</h3><div class="project-cards"><div class="project-item"><div class="project-img-placeholder">🏞️</div><div class="project-info"><h4>Farmland 3D model</h4><p>210 drone images over 22 hectares.</p></div></div><div class="project-item"><div class="project-img-placeholder">🏫</div><div class="project-info"><h4>School 3D reconstruction</h4><p>High-res textured 3D model.</p></div></div><div class="project-item"><div class="project-img-placeholder">⛰️</div><div class="project-info"><h4>Erosion gully mapping</h4><p>5 cm DSM for volume loss.</p></div></div></div></div>
+      <div class="next-button-container"><button class="next-btn" onclick="showNextSection('photogrammetry-section','gis-section')">➡️ NEXT: GIS 🗺️</button></div>
+    </div>
+    <div id="gis-section" class="category-section">
+      <div class="category-header"><div class="category-icon">🗺️📍</div><h2>Geographic Information Systems (GIS)</h2></div>
+      <div class="grid-2col">
+        <div class="skill-card" style="border-left-color:#2c7a5e;"><h3>⚙️ What I can perform</h3><ul class="skill-list"><li>Web mapping</li><li>Spatial analysis</li><li>Data conversion</li><li>Suitability analysis</li><li>Network analysis</li><li>Digitizing</li></ul></div>
+        <div class="tools-card" style="border-left-color:#2a9d8f;"><h3>🛠️ Tools I use</h3><div class="tools-list"><span>QGIS</span><span>ArcGIS Pro</span><span>Google Earth Engine</span><span>Mapbox</span><span>PostGIS</span></div></div>
+      </div>
+      <div class="projects-gallery"><h3>📌 Project examples</h3><div class="project-cards"><div class="project-item"><div class="project-img-placeholder">🏥</div><div class="project-info"><h4>Health facility analysis</h4><p>Multi-criteria analysis in Dar es Salaam.</p></div></div><div class="project-item"><div class="project-img-placeholder">🌊</div><div class="project-info"><h4>Flood risk web map</h4><p>Interactive map with evacuation routes.</p></div></div><div class="project-item"><div class="project-img-placeholder">🚦</div><div class="project-info"><h4>Emergency response</h4><p>Fastest routes for ambulance dispatch.</p></div></div></div></div>
+      <div class="next-button-container"><button class="next-btn" onclick="showNextSection('gis-section','rs-section')">➡️ NEXT: Remote Sensing 🛰️</button></div>
+    </div>
+    <div id="rs-section" class="category-section">
+      <div class="category-header"><div class="category-icon">🛰️🌿</div><h2>Remote Sensing</h2></div>
+      <div class="grid-2col">
+        <div class="skill-card" style="border-left-color:#3b82f6;"><h3>🛸 What I can perform</h3><ul class="skill-list"><li>Satellite image capture</li><li>Vegetation indices</li><li>Change detection</li><li>Image preprocessing</li><li>Land cover classification</li><li>Spectral indices</li></ul></div>
+        <div class="tools-card" style="border-left-color:#1e88e5;"><h3>🛠️ Tools I use</h3><div class="tools-list"><span>Google Earth Engine</span><span>ArcGIS Image Analyst</span><span>QGIS (SCP)</span><span>SNAP</span><span>ENVI</span></div></div>
+      </div>
+      <div class="projects-gallery"><h3>📌 Project examples</h3><div class="project-cards"><div class="project-item"><div class="project-img-placeholder">🌾</div><div class="project-info"><h4>Crop health monitoring</h4><p>NDVI time series analysis.</p></div></div><div class="project-item"><div class="project-img-placeholder">🌳</div><div class="project-info"><h4>Deforestation detection</h4><p>Landsat 5-8 forest cover loss.</p></div></div><div class="project-item"><div class="project-img-placeholder">💧</div><div class="project-info"><h4>Water body extraction</h4><p>NDWI surface water mapping.</p></div></div></div></div>
+      <div class="next-button-container" style="border-top:2px solid #2c7a5e;"><p style="color:#2c7a5e; font-weight:500;">🎉 Umemaliza sehemu zote! Asante! 🎉</p></div>
+    </div>
+    <div id="backToHomeBtn" class="bottom-home"><button class="home-btn" onclick="goToWelcome()">🏠 Back to Home</button></div>
+    <footer><p>© 2026 Taisoni Ambokile Mwaluswaswa — GIS & Remote Sensing Portfolio</p></footer>
+  </div>
+</div>
+
+<script>
+  let currentZoom = 1;
+  const img = document.getElementById('profileImage');
+  function zoomIn() { currentZoom = Math.min(currentZoom + 0.2, 3); img.style.transform = `scale(${currentZoom})`; }
+  function zoomOut() { currentZoom = Math.max(currentZoom - 0.2, 0.5); img.style.transform = `scale(${currentZoom})`; }
+  function resetZoom() { currentZoom = 1; img.style.transform = 'scale(1)'; }
+
+  function speakWelcomeMessage() {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    const msg = "Welcome to my portfolio. I am Taisoni Ambokile Mwaluswaswa, a GIS and Remote Sensing expert. Click the Enter Portfolio button to explore my work.";
+    const utterance = new SpeechSynthesisUtterance(msg);
+    utterance.lang = 'en-US'; utterance.rate = 0.9; utterance.pitch = 1.1;
+    setTimeout(() => window.speechSynthesis.speak(utterance), 100);
+  }
+
+  function goToPortfolio() {
+    document.getElementById('welcomePage').style.display = 'none';
+    document.getElementById('portfolioPage').style.display = 'block';
+    document.querySelectorAll('.category-section').forEach(s => s.classList.remove('visible'));
+    document.getElementById('backToHomeBtn').style.display = 'none';
+  }
+
+  function goToWelcome() {
+    document.getElementById('welcomePage').style.display = 'flex';
+    document.getElementById('portfolioPage').style.display = 'none';
+    resetZoom();
+  }
+
+  function showSection(id) {
+    document.querySelectorAll('.category-section').forEach(s => s.classList.remove('visible'));
+    document.getElementById(id).classList.add('visible');
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    checkRemoteSensingVisible();
+  }
+
+  function showNextSection(currentId, nextId) {
+    document.getElementById(currentId).classList.remove('visible');
+    document.getElementById(nextId).classList.add('visible');
+    document.getElementById(nextId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    checkRemoteSensingVisible();
+  }
+
+  function checkRemoteSensingVisible() {
+    const rs = document.getElementById('rs-section');
+    const backHome = document.getElementById('backToHomeBtn');
+    backHome.style.display = rs.classList.contains('visible') ? 'block' : 'none';
+  }
+
+  function togglePortfolioContact() {
+    document.getElementById('portfolioContactInfo').classList.toggle('visible');
+  }
+
+  window.addEventListener('load', () => {
+    document.getElementById('portfolioPage').style.display = 'none';
+    document.getElementById('welcomePage').style.display = 'flex';
+    resetZoom();
+  });
+</script>
+</body>
+</html>
