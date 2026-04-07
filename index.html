@@ -23,7 +23,11 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      background: white;
+      /* BACKGROUND YAKO MWENYEWE - background.png */
+      background-image: url('background.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       z-index: 1000;
       display: flex;
       flex-direction: column;
@@ -31,6 +35,25 @@
       justify-content: flex-start;
       overflow-y: auto;
       padding-top: 10px;
+      position: relative;
+    }
+
+    /* OVERLAY NYEUSI ILI MAANDISHI YASOMEKE JUU YA BACKGROUND YAKO */
+    .welcome-page::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 1;
+    }
+
+    /* VITU VOTE VYAWEKWA JUU YA OVERLAY */
+    .top-title, .image-top, .welcome-content-bottom {
+      position: relative;
+      z-index: 2;
     }
 
     /* TITLE JUU KABISA - NYEMBANIA */
@@ -43,19 +66,18 @@
     .top-title h1 {
       font-size: 1.2rem;
       font-weight: 500;
-      color: #2c7a5e;
+      color: white;
       letter-spacing: 1px;
       background: transparent;
-      -webkit-text-fill-color: #2c7a5e;
-      background: none;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
-    /* CONTAINER LA PICHA - NDOGO KIDOGO */
+    /* CONTAINER LA PICHA YAKO */
     .image-top {
       width: 100%;
       display: block;
       overflow: hidden;
-      background: white;
+      background: transparent;
       max-height: 45vh;
       min-height: 30vh;
     }
@@ -66,34 +88,36 @@
       display: block;
       margin-top: -40px;
       margin-bottom: -30px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
     }
 
-    /* WELCOME CONTENT - IMEPANDISHWA JUU */
+    /* WELCOME CONTENT - MAANDISHI YANASOMEKA JUU YA BACKGROUND */
     .welcome-content-bottom {
       text-align: center;
       width: 100%;
       max-width: 650px;
-      padding: 0.5rem 1.5rem 1.5rem 1.5rem;
-      background: transparent;
+      padding: 0.8rem 1.5rem 1.5rem 1.5rem;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(3px);
+      border-radius: 20px;
       margin-top: -10px;
-    }
-
-    .welcome-content-bottom .main-title {
-      display: none; /* Ile title ya awali imefichwa */
+      margin-bottom: 1rem;
     }
 
     .welcome-content-bottom .tagline {
       font-size: 1.1rem;
-      color: #1a2a3a;
+      color: #ffffff;
       font-weight: 600;
       margin-bottom: 0.5rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
     .welcome-content-bottom p {
       font-size: 0.85rem;
-      color: #2c3e4e;
+      color: #f0f0f0;
       margin-bottom: 1rem;
       line-height: 1.4;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
     }
 
     .enter-btn {
@@ -108,7 +132,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     
     .voice-trigger-btn {
@@ -328,7 +352,12 @@
       }
       
       .welcome-content-bottom {
-        padding: 0.3rem 1.2rem 1rem 1.2rem;
+        padding: 0.5rem 1rem 1rem 1rem;
+        margin-top: -5px;
+      }
+      
+      .welcome-content-bottom p {
+        font-size: 0.8rem;
       }
     }
 
@@ -348,28 +377,28 @@
 <!-- WELCOME PAGE -->
 <div id="welcomePage" class="welcome-page">
   
-  <!-- TITLE JUU KABISA - NYEMBANIA -->
+  <!-- TITLE JUU KABISA -->
   <div class="top-title">
     <h1>✨ Welcome to my portfolio ✨</h1>
   </div>
   
-  <!-- PICHA -->
+  <!-- PICHA YAKO -->
   <div class="image-top">
     <img id="profileImage" src="taisoni.png" alt="Taisoni Ambokile Mwaluswaswa">
   </div>
   
-  <!-- WELCOME CONTENT (IMEPANDISHWA JUU ZAIDI) -->
+  <!-- WELCOME CONTENT -->
   <div class="welcome-content-bottom">
     <div class="tagline">I'm Taisoni Ambokile Mwaluswaswa</div>
     <p><strong>Geographical Information System and Remote Sensing expert passionate about transforming spatial data into meaningful insights and real-world solutions. Here, you'll discover my work, projects, and innovations in mapping, spatial analysis, and geospatial technology. Turning data into decisions, and ideas into impactful solutions.</strong></p>
     <button class="enter-btn" onclick="goToPortfolio()">🚀 Enter Portfolio ➡️</button>
     <br>
     <button class="voice-trigger-btn" onclick="speakWelcomeMessage()">🔊 Sauti / Welcome Voice</button>
-    <p style="font-size:0.65rem; margin-top:0.6rem; color:#6c7a8a;">Bonyeza "Sauti" kusikiliza ujumbe wa kukaribisha</p>
+    <p style="font-size:0.65rem; margin-top:0.6rem; color:#cccccc;">Bonyeza "Sauti" kusikiliza ujumbe wa kukaribisha</p>
   </div>
 </div>
 
-<!-- PORTFOLIO PAGE (HAIJABADILISHWA) -->
+<!-- PORTFOLIO PAGE -->
 <div id="portfolioPage" class="portfolio-page">
   <div class="container">
     <div class="hero">
