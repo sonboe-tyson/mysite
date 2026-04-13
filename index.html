@@ -17,25 +17,20 @@
       background: white;
     }
 
-    /* WELCOME PAGE */
+    /* WELCOME PAGE - full screen, ipo juu */
     .welcome-page {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100vh;
+      min-height: 100vh;
       background-image: url('background.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      z-index: 1000;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      overflow-y: auto;
-      padding-top: 10px;
+      justify-content: center;
       position: relative;
+      padding: 20px;
     }
 
     .welcome-page::before {
@@ -110,20 +105,6 @@
       margin-bottom: 1rem;
       line-height: 1.4;
     }
-
-    .enter-btn {
-      background: linear-gradient(135deg, #2c7a5e, #1f4e3c);
-      color: white;
-      border: none;
-      padding: 0.7rem 1.3rem;
-      font-size: 0.9rem;
-      font-weight: 700;
-      border-radius: 60px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
     
     .voice-trigger-btn {
       background: linear-gradient(135deg, #3b82f6, #1e4a8a);
@@ -140,11 +121,10 @@
       margin-top: 0.6rem;
     }
 
-    /* PORTFOLIO PAGE */
+    /* PORTFOLIO PAGE - ipo chini ya welcome page */
     .portfolio-page {
-      display: none;
       background: linear-gradient(135deg, #f0f9ff 0%, #e6f0f5 100%);
-      min-height: 100vh;
+      width: 100%;
       padding: 2rem 1.5rem;
     }
     .container {
@@ -462,19 +442,27 @@
       color: #2c7a5e;
       text-decoration: none;
     }
-    .bottom-home {
+    
+    /* Back to Home Button */
+    .back-to-home {
       text-align: center;
       margin: 2rem 0 1rem;
     }
     .home-btn {
       background: linear-gradient(135deg, #1f4e3c, #2c7a5e);
       color: white;
-      padding: 0.7rem 1.5rem;
-      border-radius: 40px;
       border: none;
+      padding: 0.7rem 1.8rem;
+      border-radius: 40px;
       cursor: pointer;
       font-size: 0.9rem;
+      font-weight: 600;
+      transition: transform 0.2s;
     }
+    .home-btn:hover {
+      transform: scale(1.05);
+    }
+    
     footer {
       text-align: center;
       padding: 1rem;
@@ -487,7 +475,6 @@
     @media (max-width: 768px) {
       .top-title h1 { font-size: 1rem; }
       .welcome-content-bottom .tagline { font-size: 0.95rem; }
-      .enter-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
       .image-top img { margin-top: -30px; margin-bottom: -20px; }
       .image-top { max-height: 40vh; min-height: 28vh; }
       .welcome-content-bottom { padding: 0.5rem 1rem 1rem 1rem; margin-top: -5px; }
@@ -502,26 +489,24 @@
 </head>
 <body>
 
-<!-- WELCOME PAGE -->
+<!-- WELCOME PAGE - juu, full screen -->
 <div id="welcomePage" class="welcome-page">
   <div class="top-title">
     <h1>✨ Welcome to my portfolio ✨</h1>
   </div>
   <div class="image-top">
-    <img id="profileImage" src="taisoni.png" alt="Taisoni Ambokile Mwaluswaswa">
+    <img src="taisoni.png" alt="Taisoni Ambokile Mwaluswaswa">
   </div>
   <div class="welcome-content-bottom">
     <div class="tagline">I'm Taisoni Ambokile Mwaluswaswa</div>
     <p><strong>Geographical Information System and Remote Sensing expert passionate about transforming spatial data into meaningful insights and real-world solutions. Here, you'll discover my work, projects, and innovations in mapping, spatial analysis, and geospatial technology. Turning data into decisions, and ideas into impactful solutions.</strong></p>
-    <button class="enter-btn" onclick="goToPortfolio()">🚀 Enter Portfolio ➡️</button>
-    <br>
     <button class="voice-trigger-btn" onclick="speakWelcomeMessage()">🔊 Sauti / Welcome Voice</button>
     <p style="font-size:0.65rem; margin-top:0.6rem; color:#cccccc;">Bonyeza "Sauti" kusikiliza ujumbe wa kukaribisha</p>
   </div>
 </div>
 
-<!-- PORTFOLIO PAGE -->
-<div id="portfolioPage" class="portfolio-page">
+<!-- PORTFOLIO PAGE - chini, mtu anascroll tu kuiona -->
+<div class="portfolio-page">
   <div class="container">
     <div class="hero">
       <h2>🗺️ Taisoni Ambokile Mwaluswaswa Portfolio</h2>
@@ -535,7 +520,7 @@
         <h2>GIS Maps | Ramani za Jiografia</h2>
       </div>
       <div class="maps-grid">
-        <div class="map-card" onclick="openModal('Population Distribution Map.jpg', 'Population Distribution Map - Ubungo District')">
+        <div class="map-card" onclick="openModal('Population%20Distribution%20Map.jpg', 'Population Distribution Map - Ubungo District')">
           <div class="map-image"><img src="Population%20Distribution%20Map.jpg" alt="Population Distribution Map"></div>
           <div class="map-details">
             <h3>Population Distribution Map</h3>
@@ -589,6 +574,15 @@
             <h3>Primary Schools Distribution Map</h3>
             <p>Public primary schools across Ubungo District.</p>
             <div class="map-meta"><span class="map-type">🗺️ GIS - Social Services</span><span class="zoom-hint">🔍 Bonyeza kuzoom</span></div>
+          </div>
+        </div>
+        <!-- Ardhi University Map -->
+        <div class="map-card" onclick="openModal('ardhi_university_map.png', 'Ardhi University Campus Map')">
+          <div class="map-image"><img src="ardhi_university_map.png" alt="Ardhi University Map" onerror="this.parentElement.innerHTML='<span>🏛️ Ardhi University Map</span>'"></div>
+          <div class="map-details">
+            <h3>Ardhi University Campus Map</h3>
+            <p>Map showing Ardhi University (ARU) - Chuo cha Ardhi, Dar es Salaam, Tanzania.</p>
+            <div class="map-meta"><span class="map-type">🗺️ GIS - Campus Map</span><span class="zoom-hint">🔍 Bonyeza kuzoom</span></div>
           </div>
         </div>
       </div>
@@ -707,8 +701,48 @@
           </div>
         </div>
       </div>
+      
       <div class="maps-header" style="border-bottom: none; margin-bottom: 0.5rem; padding-bottom: 0;">
         <div class="category-icon">📸</div>
+        <h3 style="font-size: 1.2rem;">Photogrammetry Outputs</h3>
+      </div>
+      <div class="maps-grid">
+        <div class="map-card" onclick="openModal('DEM.png', 'Digital Elevation Model (DEM) - Ubungo District')">
+          <div class="map-image"><img src="DEM.png" alt="Digital Elevation Model"></div>
+          <div class="map-details">
+            <h3>Digital Elevation Model (DEM)</h3>
+            <p>Elevation model showing terrain heights from 63m to 139m above sea level.</p>
+            <div class="map-meta"><span class="map-type">📷 Photogrammetry - DEM</span><span class="zoom-hint">🔍 Bonyeza kuzoom</span></div>
+          </div>
+        </div>
+        <div class="map-card" onclick="openModal('DSM.png', 'Digital Surface Model (DSM) - Ubungo District')">
+          <div class="map-image"><img src="DSM.png" alt="Digital Surface Model"></div>
+          <div class="map-details">
+            <h3>Digital Surface Model (DSM)</h3>
+            <p>Surface model showing elevation range from 64m to 139m including features on the surface.</p>
+            <div class="map-meta"><span class="map-type">📷 Photogrammetry - DSM</span><span class="zoom-hint">🔍 Bonyeza kuzoom</span></div>
+          </div>
+        </div>
+        <div class="map-card" onclick="openModal('orthomosaic.png', 'Orthomosaic Map - Ubungo District')">
+          <div class="map-image"><img src="orthomosaic.png" alt="Orthomosaic Map" onerror="this.parentElement.innerHTML='<span>🖼️ Orthomosaic</span>'"></div>
+          <div class="map-details">
+            <h3>Orthomosaic Map</h3>
+            <p>High-resolution orthorectified aerial imagery mosaic of the study area.</p>
+            <div class="map-meta"><span class="map-type">📷 Photogrammetry - Orthomosaic</span><span class="zoom-hint">🔍 Bonyeza kuzoom</span></div>
+          </div>
+        </div>
+        <div class="map-card" onclick="openModal('contour.png', 'Contour Map - Ubungo District')">
+          <div class="map-image"><img src="contour.png" alt="Contour Map" onerror="this.parentElement.innerHTML='<span>🗺️ Contour Lines</span>'"></div>
+          <div class="map-details">
+            <h3>Contour Map</h3>
+            <p>Topographic contour lines showing elevation changes across the district.</p>
+            <div class="map-meta"><span class="map-type">📷 Photogrammetry - Contour</span><span class="zoom-hint">🔍 Bonyeza kuzoom</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="maps-header" style="border-bottom: none; margin-bottom: 0.5rem; padding-bottom: 0; margin-top: 1rem;">
+        <div class="category-icon">🚁</div>
         <h3 style="font-size: 1.2rem;">Project Examples</h3>
       </div>
       <div class="maps-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
@@ -732,15 +766,17 @@
       <button class="contact-portfolio-btn" onclick="togglePortfolioContact()">📞 Contact / Email</button>
       <div id="portfolioContactInfo" class="contact-info-portfolio">
         <p>📧 <strong>Email:</strong> <a href="mailto:taisonimwuluswaswa@gmail.com">taisonimwuluswaswa@gmail.com</a></p>
-        <p>📱 <strong>Phone:</strong> +255 749 458 547</p>
+        <p>📱 <strong>Phone (Call):</strong> <a href="tel:+255688163923">+255 688 163 923</a></p>
+        <p>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/255688163923" target="_blank">+255 688 163 923</a></p>
         <p>🌐 <strong>LinkedIn:</strong> <a href="#">linkedin.com/in/taisoni</a></p>
       </div>
     </div>
 
-    <!-- BACK TO HOME -->
-    <div class="bottom-home">
-      <button class="home-btn" onclick="goToWelcome()">🏠 Back to Home</button>
+    <!-- BACK TO HOME BUTTON - mwishoni kabisa -->
+    <div class="back-to-home">
+      <button class="home-btn" onclick="scrollToWelcome()">🏠 Back to Home</button>
     </div>
+
     <footer>
       <p>© 2026 Taisoni Ambokile Mwaluswaswa — GIS & Remote Sensing Portfolio</p>
     </footer>
@@ -782,32 +818,22 @@
     modalTitle.textContent = title;
     currentImg = modalImg;
     
-    // Reset zoom and position
     resetZoom();
     
-    // Add drag functionality
     const container = document.getElementById('modalImgContainer');
-    
-    // Remove old event listeners
     container.removeEventListener('mousedown', startDrag);
     container.removeEventListener('mousemove', drag);
     container.removeEventListener('mouseup', endDrag);
     container.removeEventListener('mouseleave', endDrag);
     
-    // Add new event listeners
     container.addEventListener('mousedown', startDrag);
     container.addEventListener('mousemove', drag);
     container.addEventListener('mouseup', endDrag);
     container.addEventListener('mouseleave', endDrag);
     
-    // Wheel zoom
     container.onwheel = function(e) {
       e.preventDefault();
-      if (e.deltaY < 0) {
-        zoomIn();
-      } else {
-        zoomOut();
-      }
+      if (e.deltaY < 0) { zoomIn(); } else { zoomOut(); }
     };
   }
   
@@ -850,10 +876,7 @@
     if (currentZoom > 0.5) {
       currentZoom = Math.max(0.5, currentZoom - 0.2);
       document.getElementById('zoomLevel').textContent = `Zoom: ${Math.round(currentZoom * 100)}%`;
-      if (currentZoom <= 1) {
-        panX = 0;
-        panY = 0;
-      }
+      if (currentZoom <= 1) { panX = 0; panY = 0; }
       applyTransform();
     }
   }
@@ -863,9 +886,7 @@
     panX = 0;
     panY = 0;
     document.getElementById('zoomLevel').textContent = 'Zoom: 100%';
-    if (currentImg) {
-      currentImg.style.transform = `translate(0px, 0px) scale(1)`;
-    }
+    if (currentImg) { currentImg.style.transform = `translate(0px, 0px) scale(1)`; }
   }
   
   function closeModal() {
@@ -874,14 +895,17 @@
   }
   
   function closeModalOnBackground(event) {
-    if (event.target === document.getElementById('imageModal')) {
-      closeModal();
-    }
+    if (event.target === document.getElementById('imageModal')) { closeModal(); }
+  }
+  
+  // Scroll to welcome page (back to home)
+  function scrollToWelcome() {
+    document.getElementById('welcomePage').scrollIntoView({ behavior: 'smooth' });
   }
   
   function speakWelcomeMessage() {
     if (window.speechSynthesis) window.speechSynthesis.cancel();
-    const msg = "Welcome to my portfolio. I am Taisoni Ambokile Mwaluswaswa, a GIS and Remote Sensing expert. Click the Enter Portfolio button to explore my work.";
+    const msg = "Welcome to my portfolio. I am Taisoni Ambokile Mwaluswaswa, a GIS and Remote Sensing expert. Scroll down to explore my work and maps.";
     const utterance = new SpeechSynthesisUtterance(msg);
     utterance.lang = 'en-US';
     utterance.rate = 0.9;
@@ -889,24 +913,9 @@
     setTimeout(() => window.speechSynthesis.speak(utterance), 100);
   }
 
-  function goToPortfolio() {
-    document.getElementById('welcomePage').style.display = 'none';
-    document.getElementById('portfolioPage').style.display = 'block';
-  }
-
-  function goToWelcome() {
-    document.getElementById('welcomePage').style.display = 'flex';
-    document.getElementById('portfolioPage').style.display = 'none';
-  }
-
   function togglePortfolioContact() {
     document.getElementById('portfolioContactInfo').classList.toggle('visible');
   }
-
-  window.addEventListener('load', () => {
-    document.getElementById('portfolioPage').style.display = 'none';
-    document.getElementById('welcomePage').style.display = 'flex';
-  });
 </script>
 </body>
 </html>
