@@ -529,8 +529,8 @@
   <div class="welcome-content-bottom">
     <div class="tagline">I'm Taisoni Ambokile Mwaluswaswa</div>
     <p><strong>Geographical Information System and Remote Sensing expert passionate about transforming spatial data into meaningful insights and real-world solutions. Here, you'll discover my work, projects, and innovations in mapping, spatial analysis, and geospatial technology. Turning data into decisions, and ideas into impactful solutions.</strong></p>
-    <button class="voice-trigger-btn" onclick="speakWelcomeMessage()">🔊 Sauti / Welcome Voice</button>
-    <p style="font-size:0.65rem; margin-top:0.6rem; color:#cccccc;">Bonyeza "Sauti" kusikiliza ujumbe wa kukaribisha</p>
+    <button class="voice-trigger-btn" onclick="playMyWelcomeAudio()">🔊 Sauti / Welcome Voice</button>
+    <p style="font-size:0.65rem; margin-top:0.6rem; color:#cccccc;">Sauti yangu itacheza moja kwa moja. Bonyeza kitufe kama haikusikika.</p>
   </div>
 </div>
 
@@ -605,7 +605,6 @@
             <div class="map-meta"><span class="map-type">🗺️ GIS - Social Services</span><span class="zoom-hint">🔍 Bonyeza kuzoom</span></div>
           </div>
         </div>
-        <!-- CHIKOLE MAP - NEW -->
         <div class="map-card" onclick="openModal('chikole.jpeg', 'Chikole Village Detailed Map - Ubungo District')">
           <div class="map-image"><img src="chikole.jpeg" alt="Chikole Village Map"></div>
           <div class="map-details">
@@ -614,7 +613,6 @@
             <div class="map-meta"><span class="map-type">🗺️ GIS - Village Mapping</span><span class="zoom-hint">🔍 Bonyeza kuzoom</span></div>
           </div>
         </div>
-        <!-- Ardhi University Map -->
         <div class="map-card" onclick="openModal('ardhi_university_map.png', 'Ardhi University Campus Map')">
           <div class="map-image"><img src="ardhi_university_map.png" alt="Ardhi University Map" onerror="this.parentElement.innerHTML='<span>🏛️ Ardhi University Map</span>'"></div>
           <div class="map-details">
@@ -633,7 +631,6 @@
         <h2>Remote Sensing Maps | Ramani za Picha za Anga</h2>
       </div>
       <div class="maps-grid">
-        <!-- PROCESSED IMAGE (RSTUDIO PREPROCESSING) - NEW -->
         <div class="map-card" onclick="openModal('processed.png', 'Image Preprocessing Comparison - RStudio Analysis')">
           <div class="map-image"><img src="processed.png" alt="Image Preprocessing Comparison"></div>
           <div class="map-details">
@@ -687,7 +684,6 @@
         </div>
       </div>
       
-      <!-- R CODE ACCORDION - KWA AJILI YA PROCESSED IMAGE -->
       <div class="code-accordion">
         <details>
           <summary>📜 View R Code Used for Image Preprocessing (RStudio)</summary>
@@ -853,7 +849,6 @@ cat("✅ Preprocessing complete! Grid saved as 'processed.png'")</code></pre>
             <div class="map-meta"><span class="map-type">📷 Photogrammetry - Orthomosaic</span><span class="zoom-hint">🔍 Bonyeza kuzoom</span></div>
           </div>
         </div>
-        <!-- CONTOUR MAP - already existing -->
         <div class="map-card" onclick="openModal('contour.png', 'Contour Map - Ubungo District')">
           <div class="map-image"><img src="contour.png" alt="Contour Map" onerror="this.parentElement.innerHTML='<span>🗺️ Contour Lines</span>'"></div>
           <div class="map-details">
@@ -1026,15 +1021,52 @@ cat("✅ Preprocessing complete! Grid saved as 'processed.png'")</code></pre>
     document.getElementById('welcomePage').scrollIntoView({ behavior: 'smooth' });
   }
   
-  function speakWelcomeMessage() {
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
-    const msg = "Welcome to my portfolio. I am Taisoni Ambokile Mwaluswaswa, a GIS and Remote Sensing expert. Scroll down to explore my work and maps.";
-    const utterance = new SpeechSynthesisUtterance(msg);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.9;
-    utterance.pitch = 1.1;
-    setTimeout(() => window.speechSynthesis.speak(utterance), 100);
+  // ========== SAUTI YAKO MWENYEWE (AAC) ==========
+  let audioPlayer = null;
+  let autoPlayDone = false;
+  
+  function playMyWelcomeAudio() {
+    // Cancel any playing audio
+    if (audioPlayer) {
+      audioPlayer.pause();
+      audioPlayer.currentTime = 0;
+    }
+    
+    // Create new audio element with your AAC file
+    audioPlayer = new Audio('welcome.aac');  // Badilisha jina la faili yako hapa
+    audioPlayer.play().catch(function(error) {
+      console.log("Auto-play blocked: ", error);
+      // Browser imezuia autoplay - user atabonyeza kitufe
+    });
   }
+  
+  // Auto-play on page load (or first interaction)
+  function autoPlayWelcomeAudio() {
+    if (autoPlayDone) return;
+    playMyWelcomeAudio();
+    autoPlayDone = true;
+  }
+  
+  // Jaribu kucheza mara moja page inapobebwa
+  window.addEventListener('load', function() {
+    autoPlayWelcomeAudio();
+    
+    // Ikiwa imezuiwa, subiri mwingiliano wa mtumiaji
+    const playOnInteraction = function() {
+      if (!autoPlayDone) {
+        playMyWelcomeAudio();
+        autoPlayDone = true;
+      }
+      document.removeEventListener('click', playOnInteraction);
+      document.removeEventListener('touchstart', playOnInteraction);
+      document.removeEventListener('keydown', playOnInteraction);
+    };
+    
+    document.addEventListener('click', playOnInteraction);
+    document.addEventListener('touchstart', playOnInteraction);
+    document.addEventListener('keydown', playOnInteraction);
+  });
+  // =============================================
 
   function togglePortfolioContact() {
     document.getElementById('portfolioContactInfo').classList.toggle('visible');
